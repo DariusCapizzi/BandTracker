@@ -3,7 +3,7 @@
 
 
 <form  action="/bands/$band.getId()/edit" method="post">
-  <label for="change_band_name">change name of this band: <input type="text" name="change_band_name" id="change_band_name" ></label>
+  <label for="change_band_name">change name of this band: <input type="text" required name="change_band_name" id="change_band_name" ></label>
   <button id="changeBandName" type="submit">go</button>
 </form>
 
@@ -25,8 +25,5 @@
   <ul>
   #foreach($venue in $band.thisBandsVenues())
     <li><a href="/venues/$venue.getId()">$venue.getVenueName()</a></li>
-    <form  action="/venues/$venue.getId()/remove" method="post">
-      <button type="submit" id="remove-venue">remove $venue.getVenueName()</button>
-    </form>
   #end
 #end

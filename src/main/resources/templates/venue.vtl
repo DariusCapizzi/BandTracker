@@ -1,11 +1,11 @@
 <a href="/" style="float:right; display: inline-block;">back to home</a>
 
 
-<h1><a href="/venues/$venue.getId()">$venue.getVenueName()</a>, bands: <a href="/bands/$venue.getBandId()">$venue.thisVenuesBands()</a></h1>
+<h1><a href="/venues/$venue.getId()">$venue.getVenueName()</a></h1>
 
 
 <form  action="/venues/$venue.getId()/edit" method="post">
-  <label for="change_venue_name">change name of this venue: <input type="text" name="change_venue_name" id="change_venue_name" ></label>
+  <label for="change_venue_name">change name of this venue: <input type="text" required name="change_venue_name" id="change_venue_name" ></label>
   <button id="changeVenueName" type="submit">go</button>
 </form>
 
@@ -13,3 +13,25 @@
 <form  action="/venues/$venue.getId()/remove" method="post">
   <button type="submit" id="remove-venue">remove $venue.getVenueName()</button>
 </form>
+
+#if ($bands)
+<form  action="/venues/$venue.getId()/edit" method="post">
+  <h3>Add a band to this venue</h3>
+  #foreach($band in $bands)
+    <label for="add_band"> $band.getBandName() <input type="checkbox" name="add_band" id=$band.getBandName() value=$band.getId()></label>
+    <br>
+  #end
+
+  <button id="add_band_button" type="submit">go</button>
+</form>
+#end
+
+
+#if($venue.thisVenuesBands().size() > 0)
+  <p>Venue(s): </p>
+  <ul>
+  #foreach($band in $venue.thisVenuesBands())
+    <li><a href="/bands/$band.getId()">$band.getBandName()</a></li>
+
+  #end
+#end
