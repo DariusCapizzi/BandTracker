@@ -1,5 +1,6 @@
 import java.util.Map;
 import java.util.HashMap;
+import java.lang.Boolean;
 import spark.ModelAndView;
 import spark.template.velocity.VelocityTemplateEngine;
 import static spark.Spark.*;
@@ -12,29 +13,32 @@ public class App {
     //root
     get("/", (req, response) -> {
       Map<String, Object> model = new HashMap<String, Object>();
+      if(req.session().attribute("isError") == null){
+        req.session().attribute("isError", false);
+      }
+      if( (boolean) req.session().attribute("isError") == true){
+        model.put("isError", (boolean)req.session().attribute("isError"));
+        req.session().attribute("isError", false);
+      }
       if(Band.all().size() > 0){
         model.put("bands", Band.all());
       }
       if(Venue.all().size() > 0){
         model.put("venues", Venue.all());
       }
+      req.session().attribute("OldRoute", req.uri());
+      req.session().attribute("OldTemplate", "templates/home.vtl");
       model.put("template", "templates/home.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
     //error
-    post("/error", (req, response) -> {
+    get("/error", (req, response) -> {
       Map<String, Object> model = new HashMap<String, Object>();
-      if(Band.all().size() > 0){
-        model.put("bands", Band.all());
-      }
-      if(Venue.all().size() > 0){
-        model.put("venues", Venue.all());
-      }
-      model.put("isError", true);
-      model.put("template", "templates/home.vtl");
-      return new ModelAndView(model, layout);
-    }, new VelocityTemplateEngine());
+      req.session().attribute("isError", true);
+      response.redirect(req.session().attribute("OldRoute"));
+      return null;
+    });
 
     //CREATE
     post("/band/new", (req, response) -> {
@@ -45,20 +49,21 @@ public class App {
       } else {
         Band newBand = new Band(inBandName);
         newBand.save();
-        response.redirect("/");
+        response.redirect(req.session().attribute("OldRoute"));
       }
       return null;
     });
 
     post("/venue/new", (req, response) -> {
       Map<String, Object> model = new HashMap<String, Object>();
+
       String inVenueName = req.queryParams("new-venue-name").trim();
       if (inVenueName.equals("")){
         response.redirect("/error");
       } else {
         Venue newVenue = new Venue(inVenueName);
         newVenue.save();
-        response.redirect("/");
+        response.redirect(req.session().attribute("OldRoute"));
       }
       return null;
     });
@@ -67,6 +72,15 @@ public class App {
     //READ
     get("/bands/:band_id", (req, response) -> {
       Map<String, Object> model = new HashMap<String, Object>();
+      if(req.session().attribute("isError") == null){
+        req.session().attribute("isError", false);
+      }
+      if( (boolean) req.session().attribute("isError") == true){
+        model.put("isError", (boolean)req.session().attribute("isError"));
+        req.session().attribute("isError", false);
+      }
+      req.session().attribute("OldRoute", req.uri());
+      req.session().attribute("OldTemplate", "templates/band.vtl");
       if(Venue.all().size() > 0){
         model.put("venues", Venue.all());
       }
@@ -79,6 +93,15 @@ public class App {
 
     get("/venues/:venue_id", (req, response) -> {
       Map<String, Object> model = new HashMap<String, Object>();
+      if(req.session().attribute("isError") == null){
+        req.session().attribute("isError", false);
+      }
+      if( (boolean) req.session().attribute("isError") == true){
+        model.put("isError", (boolean)req.session().attribute("isError"));
+        req.session().attribute("isError", false);
+      }
+      req.session().attribute("OldRoute", req.uri());
+      req.session().attribute("OldTemplate", "templates/venue.vtl");
       if(Band.all().size() > 0){
         model.put("bands", Band.all());
       }
@@ -95,8 +118,12 @@ public class App {
       Band thisBand = Band.find(Integer.parseInt(req.params(":band_id")));
 
       if(req.queryParams().contains("change_band_name")){
-        String newValue = req.queryParams("change_band_name");
-        thisBand.updateName(newValue);
+        if (req.queryParams("change_band_name").trim().equals("")){
+          response.redirect("/error");
+        } else {
+          String newValue = req.queryParams("change_band_name");
+          thisBand.updateName(newValue);
+        }
       }
       if(req.queryParams().contains("add_venue")){
         String[] sArray = req.queryParamsValues("add_venue");
@@ -109,7 +136,7 @@ public class App {
           }
         }
       }
-      response.redirect("/bands/"+ req.params(":band_id"));
+      response.redirect(req.session().attribute("OldRoute"));
       return null;
     });
 
@@ -119,8 +146,12 @@ public class App {
 
 
       if(req.queryParams().contains("change_venue_name")){
-        String newValue = req.queryParams("change_venue_name");
-        thisVenue.updateName(newValue);
+        if (req.queryParams("change_venue_name").trim().equals("")){
+          response.redirect("/error");
+        } else {
+          String newValue = req.queryParams("change_venue_name");
+          thisVenue.updateName(newValue);
+        }
       }
 
       if(req.queryParams().contains("add_band")){
@@ -134,7 +165,7 @@ public class App {
           }
         }
       }
-      response.redirect("/venues/" + req.params(":venue_id"));
+      response.redirect(req.session().attribute("OldRoute"));
       return null;
     });
 
@@ -144,7 +175,7 @@ public class App {
       Map<String, Object> model = new HashMap<String, Object>();
       Band thisBand = Band.find(Integer.parseInt(req.params(":band_id")));
       thisBand.remove();
-      response.redirect("/");
+      response.redirect(req.session().attribute("OldRoute"));
       return null;
     });
 
@@ -152,7 +183,7 @@ public class App {
       Map<String, Object> model = new HashMap<String, Object>();
       Venue thisVenue = Venue.find(Integer.parseInt(req.params(":venue_id")));
       thisVenue.remove();
-      response.redirect("/");
+      response.redirect(req.session().attribute("OldRoute"));
       return null;
     });
 

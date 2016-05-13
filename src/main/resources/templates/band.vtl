@@ -25,5 +25,8 @@
   <ul>
   #foreach($venue in $band.thisBandsVenues())
     <li><a href="/venues/$venue.getId()">$venue.getVenueName()</a></li>
+    <form  action="/venues/$venue.getId()/remove" method="post">
+      <button type="submit" id="remove-venue">remove from this band</button>
+    </form>
   #end
 #end

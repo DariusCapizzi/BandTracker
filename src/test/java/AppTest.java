@@ -153,4 +153,11 @@ public class AppTest extends FluentTest {
 
 
 
+  @Test
+  public void errorOnInvalidInput() {
+    goTo("http://localhost:4567/");
+    fill("#new-venue-name").with("    ");
+    submit("#new-venue-btn");
+    assertThat(pageSource()).contains("invalid");
+  }
 }

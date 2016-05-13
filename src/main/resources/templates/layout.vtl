@@ -12,6 +12,10 @@
         <p>the most rad</p>
 		</div>
 
+    #if($isError)
+      <p class="error" style="color:red;"> invalid input </p>
+    #end
+
     <div class="main-content">
       #parse( $template )
     </div>
