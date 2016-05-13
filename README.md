@@ -1,24 +1,23 @@
-# _Hair Salon_
+# _Band Tracker_
 
-#### _Java course week 3, epicodus code review, 2016, May 6th _
+#### _Java course week 4, epicodus code review, 2016, May 13th _
 
 #### By _Darius Capizzi_
 
 ## Description
 
-_add, remove, and alter "bands" and "venues" with an associated database. There are two tables in the database, one for venues and one for bands_
+_add, remove, and alter "bands" and "venues" with an associated database. There are three tables in the database, one for venues and one for bands and one join table_
 
 ## Setup/Installation Requirements
 
 * _clone this repository_
 * _cd to directory_
 * _run postgres server_
-* CREATE DATABASE hair_salon or hair_salon_test
-* run "psql hair_salon < hair_salon.sql"
+* CREATE DATABASE band_tracker or band_tracker_test
+* run "psql band_tracker < band_tracker.sql"
 * run _gradle run_
 * _go to localhost:4567_
-* _enter band name into box_
-* _enter venue name under the band on right panel_
+* _enter band name into box or enter venue name into the other_
 * _enjoy_
 
 
@@ -30,7 +29,7 @@ Gradle, Spark, fluentlenium, Java
 
 MIT License
 
-Copyright (c) [year] [fullname]
+Copyright (c) 2016 Darius Capizzi
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
