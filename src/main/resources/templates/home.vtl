@@ -9,10 +9,9 @@
 </form>
 
 
-
 <h4>add a new Venue: </h4>
 <form  action="/venue/new" method="post">
-    <label for="new-venue-name">name of venue: <input type="text" name="new-venue-name" id="new-venue-name" ></label>
+    <label for="new-venue-name">name of venue: <input type="text" name="new-venue-name" id="new-venue-name"></label>
     <button id="new-venue-btn" type="submit">go</button>
 </form>
 
@@ -23,14 +22,8 @@
   #foreach($band in $bands)
     <li><a href="/bands/$band.getId()">$band.getBandName()</a></li>
 
-
     <form  action="/bands/$band.getId()/remove" method="post">
       <button type="submit" id="remove-band">remove $band.getBandName()</button>
-    </form>
-
-    <form  action="/bands/$band.getId()/venue/new" method="post">
-      <label for="venue-name">add a venue to this band: <input type="test" name="venue-name" id="venue-name" ></label>
-      <button type="submit">go</button>
     </form>
 
   #end

@@ -79,52 +79,76 @@ public class AppTest extends FluentTest {
     assertThat(pageSource()).doesNotContain("flint");
   }
 
-  // @Test
-  // public void seeThisBand() {
-  //   Band thisBand = new Band("daave");
-  //   thisBand.save();
-  //
-  //   goTo("http://localhost:4567/");
-  //   click("a", withText("daave"));
-  //   assertThat(pageSource()).contains("daave");
-  // }
-  //
-  // @Test
-  // public void seeThisVenue() {
-  //   Band testBand = new Band("dave");
-  //   testBand.save();
-  //   Venue myVenue = new Venue("flint", testBand.getId());
-  //   myVenue.save();
-  //
-  //   goTo("http://localhost:4567/");
-  //   click("a", withText("flint"));
-  //   assertThat(pageSource()).contains("flint");
-  // }
-  //
-  // @Test
-  // public void updateBand() {
-  //   Band testBand = new Band("dave");
-  //   testBand.save();
-  //
-  //   goTo("http://localhost:4567/bands/"+testBand.getId());
-  //   fill("#change_band_name").with("carl");
-  //   submit("#changeBandName");
-  //   assertThat(pageSource()).contains("carl");
-  // }
-  //
-  // @Test
-  // public void updateVenue() {
-  //   Band testBand = new Band("dave");
-  //   testBand.save();
-  //   Venue myVenue = new Venue("flint", testBand.getId());
-  //   myVenue.save();
-  //
-  //   goTo("http://localhost:4567/venues/"+myVenue.getId());
-  //   fill("#change_venue_name").with("clint");
-  //   submit("#changeVenueName");
-  //   assertThat(pageSource()).contains("clint");
-  // }
-  //
+  @Test
+  public void seeThisBand() {
+    Band thisBand = new Band("daave");
+    thisBand.save();
+
+    goTo("http://localhost:4567/");
+    click("a", withText("daave"));
+    assertThat(pageSource()).contains("daave");
+  }
+
+  @Test
+  public void seeThisVenue() {
+    Venue myVenue = new Venue("flint");
+    myVenue.save();
+
+    goTo("http://localhost:4567/");
+    click("a", withText("flint"));
+    assertThat(pageSource()).contains("flint");
+  }
+
+  @Test
+  public void updateBandName() {
+    Band testBand = new Band("dave");
+    testBand.save();
+
+    goTo("http://localhost:4567/bands/"+testBand.getId());
+    fill("#change_band_name").with("carl");
+    submit("#changeBandName");
+    assertThat(pageSource()).contains("carl");
+  }
+
+  @Test
+  public void updateBandsAddVenue() {
+    Band testBand = new Band("dave");
+    Venue myVenue = new Venue("carl");
+    testBand.save();
+    myVenue.save();
+    goTo("http://localhost:4567/bands/"+testBand.getId());
+    fill("#carl");
+    submit("#add_venue_button");
+    assertThat(pageSource()).contains("carl");
+  }
+
+  @Test
+  public void updateVenueName() {
+    Band testBand = new Band("dave");
+    testBand.save();
+    Venue myVenue = new Venue("flint");
+    myVenue.save();
+
+    goTo("http://localhost:4567/venues/"+myVenue.getId());
+    fill("#change_venue_name").with("clint");
+    submit("#changeVenueName");
+    assertThat(pageSource()).contains("clint");
+  }
+
+
+  @Test
+  public void updateVenueAddBand() {
+    Band testBand = new Band("dave");
+    testBand.save();
+    Venue myVenue = new Venue("flint");
+    myVenue.save();
+
+    goTo("http://localhost:4567/venues/"+myVenue.getId());
+    fill("#dave");
+    submit("#add_band_button");
+    assertThat(pageSource()).contains("dave");
+  }
+
 
 
 }

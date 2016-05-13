@@ -1,4 +1,4 @@
-<a href="/" style="float:right;">back to home</a>
+<a href="/" style="float:right; display: inline-block;">back to home</a>
 <h1>$band.getBandName()</h1>
 
 
@@ -7,10 +7,17 @@
   <button id="changeBandName" type="submit">go</button>
 </form>
 
-<form  action="/bands/$band.getId()/venue/new" method="post">
-  <label for="venue-name">add a venue to this band: <input type="text" name="venue-name" id="change_venue_name" ></label>
-  <button type="submit">go</button>
+#if ($venues)
+<form  action="/bands/$band.getId()/edit" method="post">
+  <h3>Add a venue to this band</h3>
+  #foreach($venue in $venues)
+    <label for="add_venue"> $venue.getVenueName() <input type="checkbox" name="add_venue" id=$venue.getVenueName() value=$venue.getId()></label>
+    <br>
+  #end
+
+  <button id="add_venue_button" type="submit">go</button>
 </form>
+#end
 
 
 #if($band.thisBandsVenues().size() > 0)
