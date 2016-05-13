@@ -44,7 +44,7 @@ public class BandTest {
   public void find_returnsCorrectBandSearchedFor_Band() {
     Band testBand = new Band("dave");
     testBand.save();
-    assertEquals(Band.find(testBand.getId()), testBand);
+    assertTrue(Band.find(testBand.getId()).equals(testBand));
   }
 
   @Test

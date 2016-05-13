@@ -121,8 +121,8 @@ public class Band {
       return false;
     } else {
       Band newBand = (Band) otherBand;
-      return this.thisVenuesBands().equals(newBand.thisVenuesBands()) &&
-      this.getId() == newBand.getId();
+      return this.getId() == newBand.getId()
+      && this.getBandName().equals(newBand.getBandName());
     }
   }
 
@@ -130,7 +130,7 @@ public class Band {
     return id;
   }
 
-  public String thisVenuesBands(){
+  public String getBandName(){
     return band_name;
   }
 

@@ -6,40 +6,41 @@ import static spark.Spark.*;
 
 public class App {
   public static void main(String[] args) {
-  //   staticFileLocation("/public");
-  //   String layout = "templates/layout.vtl";
-  //
-  //   //root
-  //   get("/", (req, response) -> {
-  //     Map<String, Object> model = new HashMap<String, Object>();
-  //     if(Band.all().size() > 0){
-  //       model.put("bands", Band.all());
-  //     }
-  //     if(Venue.all().size() > 0){
-  //       model.put("venues", Venue.all());
-  //     }
-  //     model.put("template", "templates/home.vtl");
-  //     return new ModelAndView(model, layout);
-  //   }, new VelocityTemplateEngine());
-  //
-  //   //CREATE
-  //   post("/band/new", (req, response) -> {
-  //     Map<String, Object> model = new HashMap<String, Object>();
-  //     String inBandName = req.queryParams("band-name");
-  //     Band newBand = new Band(inBandName);
-  //     newBand.save();
-  //     response.redirect("/");
-  //     return new ModelAndView(model, layout);
-  //   }, new VelocityTemplateEngine());
-  //
-  //   post("/bands/:band_id/venue/new", (req, response) -> {
-  //     Map<String, Object> model = new HashMap<String, Object>();
-  //     String inVenueName = req.queryParams("venue-name");
-  //     Venue newVenue = new Venue(inVenueName, Integer.parseInt(req.params(":band_id")));
-  //     newVenue.save();
-  //     response.redirect("/bands/" + req.params(":band_id"));
-  //     return new ModelAndView(model, layout);
-  //   }, new VelocityTemplateEngine());
+    staticFileLocation("/public");
+    String layout = "templates/layout.vtl";
+
+    //root
+    get("/", (req, response) -> {
+      Map<String, Object> model = new HashMap<String, Object>();
+      if(Band.all().size() > 0){
+        model.put("bands", Band.all());
+      }
+      if(Venue.all().size() > 0){
+        model.put("venues", Venue.all());
+      }
+      model.put("template", "templates/home.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    //CREATE
+    post("/band/new", (req, response) -> {
+      Map<String, Object> model = new HashMap<String, Object>();
+      String inBandName = req.queryParams("band-name");
+      Band newBand = new Band(inBandName);
+      newBand.save();
+      response.redirect("/");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    post("/venue/new", (req, response) -> {
+      Map<String, Object> model = new HashMap<String, Object>();
+      String inVenueName = req.queryParams("new-venue-name");
+      Venue newVenue = new Venue(inVenueName);
+      newVenue.save();
+      response.redirect("/");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
   //
   //   //READ
   //   get("/bands/:band_id", (req, response) -> {
@@ -102,26 +103,22 @@ public class App {
   //   }, new VelocityTemplateEngine());
   //
   //
-  //   //DELETE
-  //   post("/bands/:band_id/remove", (req, response) -> {
-  //     Map<String, Object> model = new HashMap<String, Object>();
-  //     Band thisBand = Band.find(Integer.parseInt(req.params(":band_id")));
-  //     thisBand.remove();
-  //     response.redirect("/");
-  //     return new ModelAndView(model, layout);
-  //   }, new VelocityTemplateEngine());
-  //
-  //   post("/venues/:venue_id/remove", (req, response) -> {
-  //     Map<String, Object> model = new HashMap<String, Object>();
-  //     Venue thisVenue = Venue.find(Integer.parseInt(req.params(":venue_id")));
-  //     int band_id = thisVenue.getBandId();
-  //     thisVenue.remove();
-  //     response.redirect("/bands/"+ band_id);
-  //     return new ModelAndView(model, layout);
-  //   }, new VelocityTemplateEngine());
-  //
-  //
-  //
-  }
+    //DELETE
+    post("/bands/:band_id/remove", (req, response) -> {
+      Map<String, Object> model = new HashMap<String, Object>();
+      Band thisBand = Band.find(Integer.parseInt(req.params(":band_id")));
+      thisBand.remove();
+      response.redirect("/");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
 
+    post("/venues/:venue_id/remove", (req, response) -> {
+      Map<String, Object> model = new HashMap<String, Object>();
+      Venue thisVenue = Venue.find(Integer.parseInt(req.params(":venue_id")));
+      thisVenue.remove();
+      response.redirect("/");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+  }
 }

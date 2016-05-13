@@ -7,48 +7,13 @@
  <body>
 
 		<div class="header-main headers">
-				<h1>hair salon, a hair salon</h1>
+				<h1>BAND TRACKER</h1>
+        <p>the most rad</p>
 		</div>
 
     <div class="main-content">
-    #parse( $template )
+      #parse( $template )
     </div>
 
-    <div class="navigation">
-
-      <a href="/" style="float:right;">back to home</a>
-
-      #if($bands)
-        <p>Band(s): </p>
-        <ul>
-        #foreach($band in $bands)
-          <li><a href="/bands/$band.getId()">$band.thisVenuesBands()</a></li>
-
-
-          <form  action="/bands/$band.getId()/remove" method="post">
-            <button type="submit" id="remove-band">remove $band.thisVenuesBands()</button>
-          </form>
-
-          <form  action="/bands/$band.getId()/venue/new" method="post">
-            <label for="venue-name">add a venue to this band: <input type="test" name="venue-name" id="venue-name" ></label>
-            <button type="submit">go</button>
-          </form>
-
-        #end
-        </ul>
-      #end
-
-
-      #if($venues)
-        <p>Venue(s): </p>
-        <ul>
-        #foreach($venue in $venues)
-          <li><a href="/venues/$venue.getId()">$venue.getVenueName()</a>, band: <a href="/bands/$venue.getBandId()">$venue.thisVenuesBands()</a></li>
-          <form  action="/venues/$venue.getId()/remove" method="post">
-            <button type="submit" id="remove-venue">remove $venue.getVenueName()</button>
-          </form>
-        #end
-      #end
-    </div>
  </body>
 </html>
